@@ -1,0 +1,1136 @@
+- id: ctr_too_low_pause
+  name: ctr_too_low_pause
+  enabled: true
+  level: ad
+  category: click
+  severity: high
+  action_type: PAUSE
+  conditions:
+    - field: ctr
+      operator: lt
+      value: 0.005
+    - field: sample_size_ok
+      operator: eq
+      value: true
+    - field: is_retargeting
+      operator: eq
+      value: false
+  recommendation: "CTR 低于 0.5%，且样本量足够，多数冷流量素材可直接停。"
+  rationale: "点击层明显偏弱，说明创意吸引力不足。"
+  priority_score: 100
+  tags: ["ctr", "creative", "pause", "cold_traffic"]
+
+- id: ctr_low_observe_or_replace
+  name: ctr_low_observe_or_replace
+  enabled: true
+  level: ad
+  category: click
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: ctr
+      operator: between
+      value: [0.005, 0.008]
+    - field: sample_size_ok
+      operator: eq
+      value: true
+  recommendation: "CTR 处于 0.5% 到 0.8% 的偏弱区间，先替换封面、前3秒、标题和卖点。"
+  rationale: "素材吸引力不足，但还不一定需要立刻全停。"
+  priority_score: 82
+  tags: ["ctr", "creative", "replace"]
+
+- id: ctr_borderline_observe
+  name: ctr_borderline_observe
+  enabled: true
+  level: ad
+  category: click
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: ctr
+      operator: between
+      value: [0.008, 0.01]
+    - field: link_ctr
+      operator: gte
+      value: 0.01
+    - field: lpv_rate
+      operator: gte
+      value: 0.8
+  recommendation: "CTR 处于边缘区间，结合客单价、教育成本和 Link CTR 决定是否继续观察。"
+  rationale: "部分高客单或强教育产品可以接受更低 CTR。"
+  priority_score: 45
+  tags: ["ctr", "observe"]
+
+- id: high_ctr_but_low_link_ctr
+  name: high_ctr_but_low_link_ctr
+  enabled: true
+  level: ad
+  category: click
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: ctr
+      operator: gte
+      value: 0.015
+    - field: link_ctr
+      operator: lt
+      value: 0.005
+  recommendation: "CTR 高但 Link CTR 低，说明互动多但真实进站少，减少话题型表达并强化 CTA。"
+  rationale: "内容吸引用户停留，但没有推动用户离开平台进入站内。"
+  priority_score: 78
+  tags: ["ctr", "link_ctr", "cta"]
+
+- id: low_link_ctr_fix_cta
+  name: low_link_ctr_fix_cta
+  enabled: true
+  level: ad
+  category: click
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: link_ctr
+      operator: lt
+      value: 0.005
+    - field: sample_size_ok
+      operator: eq
+      value: true
+  recommendation: "Link CTR 低于 0.5%，优先重写 CTA、价格锚点和即时行动理由。"
+  rationale: "广告没有把用户真正推进入站。"
+  priority_score: 84
+  tags: ["link_ctr", "cta", "creative"]
+
+- id: low_ctr_high_cpc_replace_creative
+  name: low_ctr_high_cpc_replace_creative
+  enabled: true
+  level: ad
+  category: click
+  severity: high
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: ctr
+      operator: lt
+      value: 0.008
+    - field: cpc
+      operator: gt
+      value: 5.0
+  recommendation: "CTR 低且 CPC 高，优先替换创意，不先改页面。"
+  rationale: "点击层本身已经失效，页面优化无法解决买量成本问题。"
+  priority_score: 88
+  tags: ["ctr", "cpc", "creative"]
+
+- id: healthy_click_layer_observe_downstream
+  name: healthy_click_layer_observe_downstream
+  enabled: true
+  level: ad
+  category: click
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: ctr
+      operator: gte
+      value: 0.015
+    - field: link_ctr
+      operator: gte
+      value: 0.012
+  recommendation: "点击层基本健康，优先把分析重心转到 LPV、加购、结账和支付。"
+  rationale: "点击层不是主要矛盾，不应继续只盯创意。"
+  priority_score: 30
+  tags: ["ctr", "link_ctr", "observe"]
+
+- id: cpm_spike_major
+  name: cpm_spike_major
+  enabled: true
+  level: adset
+  category: delivery
+  severity: medium
+  action_type: EXPAND_AUDIENCE
+  conditions:
+    - field: historical_ctr_avg
+      operator: gt
+      value: 0
+    - field: cpm
+      operator: gt
+      value: 20
+  recommendation: "CPM 明显抬升时，优先检查受众过窄、版位限制和内部组互抢。"
+  rationale: "流量变贵通常来自竞争加剧或定向空间不足。"
+  priority_score: 60
+  tags: ["cpm", "delivery", "audience"]
+
+- id: high_frequency_fatigue_risk_cold
+  name: high_frequency_fatigue_risk_cold
+  enabled: true
+  level: ad
+  category: fatigue
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: frequency
+      operator: gt
+      value: 3
+    - field: is_retargeting
+      operator: eq
+      value: false
+  recommendation: "冷流量 Frequency 超过 3，进入疲劳预警，先补素材和扩人群。"
+  rationale: "重复触达正在增加，素材衰退风险变高。"
+  priority_score: 72
+  tags: ["frequency", "fatigue", "cold_traffic"]
+
+- id: high_frequency_fatigue_major_cold
+  name: high_frequency_fatigue_major_cold
+  enabled: true
+  level: ad
+  category: fatigue
+  severity: high
+  action_type: PAUSE
+  conditions:
+    - field: frequency
+      operator: gt
+      value: 4
+    - field: ctr
+      operator: lt
+      value: 0.01
+    - field: is_retargeting
+      operator: eq
+      value: false
+  recommendation: "冷流量频次过高且 CTR 已下滑，多数已进入疲劳期，应暂停硬放量。"
+  rationale: "高频叠加点击下滑，是典型创意疲劳特征。"
+  priority_score: 92
+  tags: ["frequency", "fatigue", "pause"]
+
+- id: high_frequency_retargeting_control
+  name: high_frequency_retargeting_control
+  enabled: true
+  level: ad
+  category: fatigue
+  severity: medium
+  action_type: CONTROL_BUDGET
+  conditions:
+    - field: frequency
+      operator: gt
+      value: 6
+    - field: is_retargeting
+      operator: eq
+      value: true
+  recommendation: "再营销频次超过 6，优先缩短窗口、细分行为层级并控制预算。"
+  rationale: "再营销池可能过小，继续强压会造成浪费。"
+  priority_score: 76
+  tags: ["frequency", "retargeting", "budget"]
+
+- id: lpv_rate_critical_fix_landing_page
+  name: lpv_rate_critical_fix_landing_page
+  enabled: true
+  level: ad
+  category: landing_page
+  severity: high
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: lpv_rate
+      operator: lt
+      value: 0.6
+    - field: ctr
+      operator: gte
+      value: 0.01
+  recommendation: "LPV / Click 低于 60%，绝对先查页面、链接、重定向和移动端加载。"
+  rationale: "广告能带来点击，但站内到达率严重掉损。"
+  priority_score: 95
+  tags: ["lpv", "landing_page", "critical"]
+
+- id: lpv_rate_weak_fix_speed
+  name: lpv_rate_weak_fix_speed
+  enabled: true
+  level: ad
+  category: landing_page
+  severity: medium
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: lpv_rate
+      operator: between
+      value: [0.6, 0.7]
+  recommendation: "LPV / Click 处于 60% 到 70% 的偏弱区间，优先查页面速度和移动端打开路径。"
+  rationale: "页面链路存在损耗，但未到完全异常级别。"
+  priority_score: 70
+  tags: ["lpv", "landing_page", "speed"]
+
+- id: strong_click_but_low_atc_fix_product_page
+  name: strong_click_but_low_atc_fix_product_page
+  enabled: true
+  level: ad
+  category: conversion
+  severity: high
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: ctr
+      operator: gte
+      value: 0.015
+    - field: lpv_rate
+      operator: gte
+      value: 0.7
+    - field: add_to_cart_rate
+      operator: lt
+      value: 0.03
+  recommendation: "点击层和到达率正常，但加购率过低，优先改商品页首屏、价格锚点、评价和默认 SKU。"
+  rationale: "前链路健康，主要问题在商品页说服力。"
+  priority_score: 93
+  tags: ["atc", "product_page", "conversion"]
+
+- id: low_atc_improve_offer_and_proof
+  name: low_atc_improve_offer_and_proof
+  enabled: true
+  level: ad
+  category: conversion
+  severity: medium
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: add_to_cart_rate
+      operator: between
+      value: [0.03, 0.05]
+  recommendation: "AddToCart / LPV 处于 3% 到 5% 的偏弱区间，优化价格、优惠、评价和前后对比。"
+  rationale: "商品页承接仍有明显提升空间。"
+  priority_score: 68
+  tags: ["atc", "offer", "social_proof"]
+
+- id: high_atc_observe_checkout
+  name: high_atc_observe_checkout
+  enabled: true
+  level: ad
+  category: conversion
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: add_to_cart_rate
+      operator: gt
+      value: 0.08
+  recommendation: "加购率较好，优先把问题排查重心转到结账和支付层。"
+  rationale: "商品页承接通常不算差。"
+  priority_score: 20
+  tags: ["atc", "observe", "checkout"]
+
+- id: checkout_rate_critical_fix_cart
+  name: checkout_rate_critical_fix_cart
+  enabled: true
+  level: ad
+  category: checkout
+  severity: high
+  action_type: FIX_CHECKOUT
+  conditions:
+    - field: checkout_rate
+      operator: lt
+      value: 0.2
+  recommendation: "InitiateCheckout / ATC 低于 20%，优先排查购物车、运费和注册门槛。"
+  rationale: "购物车到结账的阻力明显过大。"
+  priority_score: 90
+  tags: ["checkout", "cart", "shipping"]
+
+- id: checkout_rate_weak_fix_cart
+  name: checkout_rate_weak_fix_cart
+  enabled: true
+  level: ad
+  category: checkout
+  severity: medium
+  action_type: FIX_CHECKOUT
+  conditions:
+    - field: checkout_rate
+      operator: between
+      value: [0.2, 0.3]
+  recommendation: "InitiateCheckout / ATC 处于 20% 到 30% 区间，检查购物车设计、优惠码和登录要求。"
+  rationale: "存在阻力，但还可能通过购物车优化修复。"
+  priority_score: 72
+  tags: ["checkout", "cart"]
+
+- id: purchase_cvr_critical_fix_payment_or_quality
+  name: purchase_cvr_critical_fix_payment_or_quality
+  enabled: true
+  level: ad
+  category: purchase
+  severity: high
+  action_type: FIX_CHECKOUT
+  conditions:
+    - field: purchase_cvr
+      operator: lt
+      value: 0.005
+    - field: lpv_rate
+      operator: gte
+      value: 0.7
+    - field: add_to_cart
+      operator: gte
+      value: 5
+    - field: initiate_checkout
+      operator: gte
+      value: 1
+    - field: purchases
+      operator: gte
+      value: 1
+  recommendation: "Purchase / LPV 低于 0.5%，拆查页面、支付和流量质量，不只看创意。"
+  rationale: "点击和到达不一定是问题，后链路明显承压。"
+  priority_score: 88
+  tags: ["purchase", "payment", "quality"]
+
+- id: high_checkout_low_purchase_fix_payment
+  name: high_checkout_low_purchase_fix_payment
+  enabled: true
+  level: ad
+  category: purchase
+  severity: high
+  action_type: FIX_PAYMENT
+  conditions:
+    - field: checkout_rate
+      operator: gte
+      value: 0.45
+    - field: purchase_cvr
+      operator: lt
+      value: 0.01
+    - field: purchases
+      operator: eq
+      value: 0
+  recommendation: "结账率高但购买率低，优先排查支付方式、支付报错和移动端支付页。"
+  rationale: "购物车到结账表现正常，支付环节更值得优先怀疑。"
+  priority_score: 86
+  tags: ["payment", "checkout", "purchase"]
+
+- id: cpa_within_target_observe_scale
+  name: cpa_within_target_observe_scale
+  enabled: true
+  level: ad
+  category: profitability
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: cpa
+      operator: lte
+      value: 100.0
+  recommendation: "CPA 达标，继续观察稳定性和扩量条件。"
+  rationale: "成本表现处于可接受区间。"
+  priority_score: 25
+  tags: ["cpa", "observe"]
+
+- id: cpa_borderline_optimize
+  name: cpa_borderline_optimize
+  enabled: true
+  level: ad
+  category: profitability
+  severity: medium
+  action_type: OPTIMIZE
+  conditions:
+    - field: cpa
+      operator: between
+      value: [100.0, 120.0]
+  recommendation: "CPA 接近目标边缘区间，可先优化，不必立刻暂停。"
+  rationale: "还存在优化和回归目标的机会。"
+  priority_score: 55
+  tags: ["cpa", "optimize"]
+
+- id: cpa_high_prepare_stop
+  name: cpa_high_prepare_stop
+  enabled: true
+  level: ad
+  category: profitability
+  severity: high
+  action_type: PREPARE_STOP
+  conditions:
+    - field: cpa
+      operator: between
+      value: [120.0, 150.0]
+    - field: sample_size_ok
+      operator: eq
+      value: true
+  recommendation: "CPA 已明显高于目标，若 CTR/CVR 没改善趋势，应进入止损观察。"
+  rationale: "成本偏离较大，继续放量风险较高。"
+  priority_score: 78
+  tags: ["cpa", "stop_loss"]
+
+- id: cpa_high_low_ctr_replace_creative
+  name: cpa_high_low_ctr_replace_creative
+  enabled: true
+  level: ad
+  category: profitability
+  severity: high
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: cpa
+      operator: gt
+      value: 120.0
+    - field: ctr
+      operator: lt
+      value: 0.01
+  recommendation: "CPA 高且 CTR 低，优先从创意层重做素材和钩子。"
+  rationale: "点击层问题会直接推高获客成本。"
+  priority_score: 84
+  tags: ["cpa", "ctr", "creative"]
+
+- id: cpa_high_normal_ctr_fix_page
+  name: cpa_high_normal_ctr_fix_page
+  enabled: true
+  level: ad
+  category: profitability
+  severity: high
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: cpa
+      operator: gt
+      value: 120.0
+    - field: ctr
+      operator: gte
+      value: 0.01
+    - field: purchase_cvr
+      operator: lt
+      value: 0.01
+  recommendation: "CPA 高但 CTR 正常、Purchase CVR 低，优先查页面和流量质量。"
+  rationale: "问题更多发生在点击之后，而不是点击之前。"
+  priority_score: 83
+  tags: ["cpa", "landing_page", "quality"]
+
+- id: low_roas_stop_loss
+  name: low_roas_stop_loss
+  enabled: true
+  level: ad
+  category: profitability
+  severity: high
+  action_type: PAUSE
+  conditions:
+    - field: roas
+      operator: lt
+      value: 0.8
+    - field: purchases
+      operator: gte
+      value: 1
+    - field: sample_size_ok
+      operator: eq
+      value: true
+  recommendation: "ROAS 明显低于平衡线且样本量足够，多数应止损。"
+  rationale: "收益层已经明显失控。"
+  priority_score: 94
+  tags: ["roas", "pause", "profit"]
+
+- id: low_roas_check_aov
+  name: low_roas_check_aov
+  enabled: true
+  level: ad
+  category: profitability
+  severity: medium
+  action_type: IMPROVE_AOV
+  conditions:
+    - field: roas
+      operator: lt
+      value: 1.0
+    - field: cpa
+      operator: lte
+      value: 100.0
+  recommendation: "ROAS 偏低但 CPA 未显著变差，优先检查 AOV、低价 SKU 和套餐结构。"
+  rationale: "收益问题不一定来自获客成本，也可能来自客单价。"
+  priority_score: 74
+  tags: ["roas", "aov", "profit"]
+
+- id: low_aov_improve_bundle
+  name: low_aov_improve_bundle
+  enabled: true
+  level: ad
+  category: profitability
+  severity: medium
+  action_type: IMPROVE_AOV
+  conditions:
+    - field: aov
+      operator: lt
+      value: 80.0
+  recommendation: "AOV 偏低，优先用套餐、加价购、满额赠和默认高利润 SKU 提升客单。"
+  rationale: "客单价不足会直接拖累收益层表现。"
+  priority_score: 66
+  tags: ["aov", "bundle", "upsell"]
+
+- id: healthy_roas_scale_candidate
+  name: healthy_roas_scale_candidate
+  enabled: true
+  level: ad
+  category: scale
+  severity: low
+  action_type: SCALE
+  conditions:
+    - field: roas
+      operator: gte
+      value: 1.2
+    - field: purchases
+      operator: gte
+      value: 2
+    - field: cpa
+      operator: lte
+      value: 100.0
+    - field: ctr
+      operator: gte
+      value: 0.012
+    - field: frequency
+      operator: lte
+      value: 3.0
+  recommendation: "ROAS 和 CPA 都达标，且频次未失控，可进入扩量观察名单。"
+  rationale: "成本和收益同时健康，具备一定放量基础。"
+  priority_score: 40
+  tags: ["scale", "roas", "cpa"]
+
+- id: profitable_but_cannot_spend_expand
+  name: profitable_but_cannot_spend_expand
+  enabled: true
+  level: adset
+  category: scale
+  severity: medium
+  action_type: EXPAND_AUDIENCE
+  conditions:
+    - field: roas
+      operator: gte
+      value: 1.2
+    - field: cpa
+      operator: lte
+      value: 100.0
+    - field: impressions
+      operator: lt
+      value: 5000
+  recommendation: "广告赚钱但量小，优先扩受众、放开版位和补素材，再考虑提预算。"
+  rationale: "拿量能力不足通常不是直接加预算能解决的。"
+  priority_score: 58
+  tags: ["scale", "audience", "delivery"]
+
+- id: data_anomaly_zero_purchase_with_spend
+  name: data_anomaly_zero_purchase_with_spend
+  enabled: true
+  level: ad
+  category: data
+  severity: critical
+  action_type: FIX_TRACKING
+  conditions:
+    - field: spend
+      operator: gt
+      value: 100.0
+    - field: purchases
+      operator: eq
+      value: 0
+    - field: initiate_checkout
+      operator: gt
+      value: 0
+    - field: revenue
+      operator: gt
+      value: 0.0
+  recommendation: "已有结账但购买为 0，先排查支付回传、Purchase 事件和归因，不先关广告。"
+  rationale: "这类场景很可能是支付或数据回传异常，而不是广告本身突然失效。"
+  priority_score: 110
+  tags: ["data", "tracking", "purchase", "critical"]
+
+- id: click_good_lpv_bad_do_not_pause
+  name: click_good_lpv_bad_do_not_pause
+  enabled: true
+  level: ad
+  category: data
+  severity: high
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: ctr
+      operator: gte
+      value: 0.015
+    - field: lpv_rate
+      operator: lt
+      value: 0.6
+  recommendation: "CTR 好但 LPV / Click 很差，绝对不要先暂停广告，先修页面链路。"
+  rationale: "广告已经证明能吸引目标用户，问题主要在进入站内之后。"
+  priority_score: 102
+  tags: ["landing_page", "do_not_pause", "ctr"]
+
+- id: creative_fatigue_warning
+  name: creative_fatigue_warning
+  enabled: true
+  level: ad
+  category: fatigue
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: frequency
+      operator: gt
+      value: 3.0
+    - field: ctr
+      operator: between
+      value: [0.008, 0.012]
+  recommendation: "频次上升且 CTR 落入边缘区间，优先准备同主题 3 到 5 个素材变体。"
+  rationale: "疲劳风险开始显现，但仍有通过创意更新修复的空间。"
+  priority_score: 67
+  tags: ["fatigue", "creative", "variant"]
+
+- id: retargeting_high_roas_keep_observing
+  name: retargeting_high_roas_keep_observing
+  enabled: true
+  level: ad
+  category: retargeting
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: is_retargeting
+      operator: eq
+      value: true
+    - field: roas
+      operator: gte
+      value: 1.5
+  recommendation: "再营销 ROAS 仍健康，可继续观察，但要同步监控频次是否失控。"
+  rationale: "再营销天然指标更好，不应仅因频次略高就误杀。"
+  priority_score: 25
+  tags: ["retargeting", "roas", "observe"]
+
+- id: low_comment_trust_fix_social_proof
+  name: low_comment_trust_fix_social_proof
+  enabled: true
+  level: ad
+  category: social_proof
+  severity: medium
+  action_type: IMPROVE_SOCIAL_PROOF
+  conditions:
+    - field: comments
+      operator: gt
+      value: 20
+    - field: add_to_cart_rate
+      operator: lt
+      value: 0.03
+  recommendation: "评论活跃但加购弱，优先补价格、评价、案例和 FAQ，提升社交证明质量。"
+  rationale: "评论热闹不等于成交，评论区常常暴露真实异议。"
+  priority_score: 62
+  tags: ["comments", "social_proof", "faq"]
+
+- id: high_ctr_low_outbound_reduce_platform_engagement_bias
+  name: high_ctr_low_outbound_reduce_platform_engagement_bias
+  enabled: true
+  level: ad
+  category: click
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: ctr
+      operator: gte
+      value: 0.02
+    - field: outbound_ctr
+      operator: lt
+      value: 0.005
+  recommendation: "总点击高但站外点击弱，减少话题互动型内容，改成更明确的进站导向创意。"
+  rationale: "平台内互动被放大，但真实跳转意图不足。"
+  priority_score: 74
+  tags: ["ctr", "outbound_ctr", "creative"]
+
+- id: low_cpm_low_ctr_fix_creative_not_budget
+  name: low_cpm_low_ctr_fix_creative_not_budget
+  enabled: true
+  level: ad
+  category: delivery
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: cpm
+      operator: lt
+      value: 10.0
+    - field: ctr
+      operator: lt
+      value: 0.008
+  recommendation: "流量不贵但点击弱，优先改创意，不要误以为预算不足。"
+  rationale: "买量成本不是问题，问题在于创意没吸引到点击。"
+  priority_score: 70
+  tags: ["cpm", "ctr", "creative"]
+
+- id: low_cpm_high_ctr_but_bad_conversion_fix_downstream
+  name: low_cpm_high_ctr_but_bad_conversion_fix_downstream
+  enabled: true
+  level: ad
+  category: conversion
+  severity: medium
+  action_type: FIX_LANDING_PAGE
+  conditions:
+    - field: cpm
+      operator: lt
+      value: 10.0
+    - field: ctr
+      operator: gte
+      value: 0.02
+    - field: purchase_cvr
+      operator: lt
+      value: 0.01
+  recommendation: "流量便宜且点击层健康，但转化差，优先排查页面、支付和流量质量。"
+  rationale: "前链路表现已经足够，不应继续只调整创意。"
+  priority_score: 73
+  tags: ["cpm", "ctr", "purchase", "landing_page"]
+
+- id: high_reach_no_purchase_check_targeting
+  name: high_reach_no_purchase_check_targeting
+  enabled: true
+  level: adset
+  category: delivery
+  severity: medium
+  action_type: EXPAND_AUDIENCE
+  conditions:
+    - field: reach
+      operator: gt
+      value: 5000
+    - field: purchases
+      operator: eq
+      value: 0
+    - field: ctr
+      operator: lt
+      value: 0.01
+  recommendation: "覆盖足够但仍无购买且点击弱，优先重审受众匹配度和创意方向。"
+  rationale: "系统已经给到展示，但没有吸到有效兴趣。"
+  priority_score: 68
+  tags: ["reach", "delivery", "audience"]
+
+- id: high_save_rate_low_purchase_top_funnel_only
+  name: high_save_rate_low_purchase_top_funnel_only
+  enabled: true
+  level: ad
+  category: click
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: save_rate
+      operator: gt
+      value: 0.002
+    - field: purchase_cvr
+      operator: lt
+      value: 0.01
+  recommendation: "保存率高但购买弱，素材更适合种草层，不应作为主力成交广告。"
+  rationale: "用户愿意记住内容，但还没有被充分推动购买。"
+  priority_score: 36
+  tags: ["save_rate", "top_funnel", "observe"]
+
+- id: high_share_rate_low_roas_not_sales_asset
+  name: high_share_rate_low_roas_not_sales_asset
+  enabled: true
+  level: ad
+  category: click
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: share_rate
+      operator: gt
+      value: 0.001
+    - field: roas
+      operator: lt
+      value: 1.0
+  recommendation: "分享率高但回报弱，内容更偏传播资产，建议与卖货资产分层投放。"
+  rationale: "传播价值不等于直接成交价值。"
+  priority_score: 34
+  tags: ["share_rate", "roas", "top_funnel"]
+
+- id: strong_video_hook_low_link_click_add_cta_midframe
+  name: strong_video_hook_low_link_click_add_cta_midframe
+  enabled: true
+  level: ad
+  category: click
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: video_hook_rate
+      operator: gt
+      value: 0.25
+    - field: link_ctr
+      operator: lt
+      value: 0.008
+  recommendation: "视频前段抓人但链接点击偏弱，优先在中段补利益点、价格和 CTA。"
+  rationale: "内容能留人，但没把兴趣导向动作。"
+  priority_score: 69
+  tags: ["video", "link_ctr", "creative"]
+
+- id: strong_video_completion_good_variant_candidate
+  name: strong_video_completion_good_variant_candidate
+  enabled: true
+  level: ad
+  category: fatigue
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: video_complete_rate
+      operator: gt
+      value: 0.08
+    - field: ctr
+      operator: gte
+      value: 0.012
+  recommendation: "视频完播和点击都不差，适合继续做人物、场景和开头变体。"
+  rationale: "素材结构本身有延展价值。"
+  priority_score: 28
+  tags: ["video", "variant", "observe"]
+
+- id: comments_high_price_questions_frontload_price
+  name: comments_high_price_questions_frontload_price
+  enabled: true
+  level: ad
+  category: social_proof
+  severity: medium
+  action_type: IMPROVE_OFFER_CLARITY
+  conditions:
+    - field: comments
+      operator: gt
+      value: 10
+    - field: add_to_cart_rate
+      operator: lt
+      value: 0.05
+  recommendation: "评论活跃且加购偏弱时，优先把价格、赠品和优惠前置到广告与首屏。"
+  rationale: "用户在评论区找价格，说明信息不够前置。"
+  priority_score: 64
+  tags: ["comments", "price", "offer"]
+
+- id: checkout_good_but_roas_bad_check_aov
+  name: checkout_good_but_roas_bad_check_aov
+  enabled: true
+  level: ad
+  category: profitability
+  severity: medium
+  action_type: IMPROVE_AOV
+  conditions:
+    - field: checkout_rate
+      operator: gte
+      value: 0.45
+    - field: purchases
+      operator: gte
+      value: 2
+    - field: roas
+      operator: lt
+      value: 1.0
+  recommendation: "结账链路不差但回报弱，优先检查 AOV、低价单占比和套餐结构。"
+  rationale: "问题可能不在转化链路，而在订单质量和客单价。"
+  priority_score: 71
+  tags: ["checkout", "roas", "aov"]
+
+- id: low_aov_high_purchase_cvr_reprice_or_bundle
+  name: low_aov_high_purchase_cvr_reprice_or_bundle
+  enabled: true
+  level: ad
+  category: profitability
+  severity: medium
+  action_type: IMPROVE_AOV
+  conditions:
+    - field: aov
+      operator: lt
+      value: 70.0
+    - field: purchase_cvr
+      operator: gte
+      value: 0.02
+  recommendation: "购买率不差但客单偏低，优先推套餐、加价购和默认高利润 SKU。"
+  rationale: "当前问题在利润结构，而不是转化能力。"
+  priority_score: 72
+  tags: ["aov", "purchase", "bundle"]
+
+- id: healthy_purchase_but_high_refund_quality_mismatch
+  name: healthy_purchase_but_high_refund_quality_mismatch
+  enabled: true
+  level: ad
+  category: profitability
+  severity: high
+  action_type: ADJUST_PROMISE
+  conditions:
+    - field: refund_rate
+      operator: gt
+      value: 0.08
+    - field: purchases
+      operator: gt
+      value: 3
+  recommendation: "退款率偏高，优先检查广告承诺、用户预期管理和低质量流量问题。"
+  rationale: "能成交不代表匹配正确，售后反馈是重要质量信号。"
+  priority_score: 87
+  tags: ["refund", "quality", "promise"]
+
+- id: retargeting_pool_too_small_control_delivery
+  name: retargeting_pool_too_small_control_delivery
+  enabled: true
+  level: adset
+  category: retargeting
+  severity: medium
+  action_type: CONTROL_BUDGET
+  conditions:
+    - field: is_retargeting
+      operator: eq
+      value: true
+    - field: impressions
+      operator: lt
+      value: 3000
+    - field: frequency
+      operator: gt
+      value: 6
+  recommendation: "再营销量级小但频次过高，优先控预算并细分窗口，不适合重预算压量。"
+  rationale: "人群池太小会导致重复触达浪费。"
+  priority_score: 70
+  tags: ["retargeting", "budget", "frequency"]
+
+- id: broad_audience_candidate_expand_less_restriction
+  name: broad_audience_candidate_expand_less_restriction
+  enabled: true
+  level: adset
+  category: scale
+  severity: low
+  action_type: EXPAND_AUDIENCE
+  conditions:
+    - field: cpa
+      operator: lte
+      value: 100.0
+    - field: purchases
+      operator: gte
+      value: 2
+    - field: roas
+      operator: gte
+      value: 1.2
+    - field: frequency
+      operator: lte
+      value: 2.5
+    - field: ctr
+      operator: gte
+      value: 0.012
+    - field: is_retargeting
+      operator: eq
+      value: false
+  recommendation: "成本稳定且频次未抬头，可优先放宽受众限制，扩大算法探索空间。"
+  rationale: "当前放量更适合从受众容量入手，而不是直接硬加预算。"
+  priority_score: 44
+  tags: ["scale", "audience", "cold_traffic"]
+
+- id: scale_blocked_by_single_creative_dependency
+  name: scale_blocked_by_single_creative_dependency
+  enabled: true
+  level: ad
+  category: scale
+  severity: medium
+  action_type: REPLACE_CREATIVE
+  conditions:
+    - field: roas
+      operator: gte
+      value: 1.2
+    - field: frequency
+      operator: gt
+      value: 2.5
+  recommendation: "广告已具备盈利能力但频次开始抬头，扩量前先补 3 到 5 个同主题变体。"
+  rationale: "没有创意储备的扩量，本质上是在放大疲劳风险。"
+  priority_score: 63
+  tags: ["scale", "creative", "frequency"]
+
+- id: lead_form_low_quality_raise_bar
+  name: lead_form_low_quality_raise_bar
+  enabled: true
+  level: ad
+  category: lead
+  severity: medium
+  action_type: RAISE_LEAD_QUALITY
+  conditions:
+    - field: objective
+      operator: eq
+      value: "lead"
+    - field: cpa
+      operator: lt
+      value: 50.0
+    - field: purchases
+      operator: eq
+      value: 0
+  recommendation: "线索成本看似低但后续成交弱，优先提高表单门槛并增加筛选问题。"
+  rationale: "过低 CPL 常常意味着线索质量不足。"
+  priority_score: 65
+  tags: ["lead", "quality", "form"]
+
+- id: message_ads_low_sales_fix_followup
+  name: message_ads_low_sales_fix_followup
+  enabled: true
+  level: ad
+  category: message
+  severity: medium
+  action_type: FIX_SALES_PROCESS
+  conditions:
+    - field: objective
+      operator: eq
+      value: "message"
+    - field: ctr
+      operator: gte
+      value: 0.012
+    - field: purchases
+      operator: eq
+      value: 0
+  recommendation: "消息广告点击正常但成交弱，优先审查回复时效、销售脚本和线索筛选。"
+  rationale: "问题可能发生在客服或销售流程，而不是广告本身。"
+  priority_score: 61
+  tags: ["message", "sales", "followup"]
+
+- id: placement_low_ctr_disable_or_adapt
+  name: placement_low_ctr_disable_or_adapt
+  enabled: true
+  level: ad
+  category: placement
+  severity: medium
+  action_type: ADJUST_PLACEMENT
+  conditions:
+    - field: ctr
+      operator: lt
+      value: 0.008
+    - field: placement
+      operator: in
+      value: ["stories", "reels", "feed"]
+  recommendation: "特定版位点击偏弱时，先单独适配该版位素材，必要时关闭低效版位。"
+  rationale: "同一创意在不同版位天然表现不同，不能强行混看。"
+  priority_score: 58
+  tags: ["placement", "creative", "ctr"]
+
+- id: country_good_click_bad_checkout_localize_payment
+  name: country_good_click_bad_checkout_localize_payment
+  enabled: true
+  level: ad
+  category: geography
+  severity: medium
+  action_type: LOCALIZE_OFFER
+  conditions:
+    - field: ctr
+      operator: gte
+      value: 0.012
+    - field: checkout_rate
+      operator: lt
+      value: 0.25
+  recommendation: "点击不差但结账弱时，优先检查地区物流、货币、支付方式和本地化承诺。"
+  rationale: "不同地区的结账阻力往往来自支付和履约而非创意。"
+  priority_score: 57
+  tags: ["geography", "checkout", "localization"]
+
+- id: high_roas_low_volume_scale_cautiously
+  name: high_roas_low_volume_scale_cautiously
+  enabled: true
+  level: ad
+  category: scale
+  severity: low
+  action_type: SCALE
+  conditions:
+    - field: roas
+      operator: gte
+      value: 1.5
+    - field: purchases
+      operator: between
+      value: [1, 3]
+  recommendation: "回报高但样本量小，先小幅扩量并继续验证，不做暴力放量。"
+  rationale: "当前结果可能有潜力，但规模稳定性尚未充分验证。"
+  priority_score: 38
+  tags: ["scale", "roas", "sample"]
+
+- id: budget_scaled_too_fast_control_budget
+  name: budget_scaled_too_fast_control_budget
+  enabled: true
+  level: adset
+  category: scale
+  severity: high
+  action_type: CONTROL_BUDGET
+  conditions:
+    - field: cpa_vs_history
+      operator: gt
+      value: 0.3
+    - field: frequency
+      operator: gt
+      value: 3.0
+  recommendation: "成本相对历史明显恶化且频次抬头，优先回退预算或放缓放量节奏。"
+  rationale: "扩量速度过快会把系统推向更差流量。"
+  priority_score: 82
+  tags: ["budget", "scale", "cpa"]
+
+- id: no_need_to_pause_when_page_recently_fixed
+  name: no_need_to_pause_when_page_recently_fixed
+  enabled: true
+  level: ad
+  category: landing_page
+  severity: low
+  action_type: OBSERVE
+  conditions:
+    - field: lpv_rate
+      operator: gte
+      value: 0.7
+    - field: add_to_cart_rate
+      operator: between
+      value: [0.03, 0.05]
+  recommendation: "页面链路已有基础，可继续观察修复后的真实转化表现，不必立刻误杀广告。"
+  rationale: "修复后的页面需要一定样本验证。"
+  priority_score: 24
+  tags: ["landing_page", "observe", "recovery"]

@@ -1,0 +1,47 @@
+{
+  "engine_version": "0.1.0",
+  "rule_version": "demo-rule-version",
+  "analyzed_count": 4,
+  "results": [
+    {
+      "ad_id": "ad_demo_low_ctr",
+      "risk_level": "high",
+      "primary_action": "PAUSE",
+      "diagnosis_summary": "点击层优先级最高。CTR 低于 0.5%，且样本量足够，多数冷流量素材可直接停。 关键指标：ctr=0.003, link_ctr=0.002333, lpv_rate=0.666667。",
+      "matched_rule_examples": [
+        "ctr_too_low_pause",
+        "low_ctr_high_cpc_replace_creative"
+      ]
+    },
+    {
+      "ad_id": "ad_demo_lpv_issue",
+      "risk_level": "high",
+      "primary_action": "FIX_LANDING_PAGE",
+      "diagnosis_summary": "承接层优先级最高。LPV / Click 低于 60%，绝对先查页面、链接、重定向和移动端加载。 关键指标：ctr=0.02, link_ctr=0.015, lpv_rate=0.4。",
+      "matched_rule_examples": [
+        "lpv_rate_critical_fix_landing_page",
+        "click_good_lpv_bad_do_not_pause"
+      ]
+    },
+    {
+      "ad_id": "ad_demo_checkout_issue",
+      "risk_level": "critical",
+      "primary_action": "FIX_TRACKING",
+      "diagnosis_summary": "数据层优先级最高。已有结账但购买为 0，先排查支付回传、Purchase 事件和归因，不先关广告。 关键指标：ctr=0.025, link_ctr=0.02, lpv_rate=0.875。",
+      "matched_rule_examples": [
+        "data_anomaly_zero_purchase_with_spend",
+        "checkout_rate_critical_fix_cart"
+      ]
+    },
+    {
+      "ad_id": "ad_demo_good_scale",
+      "risk_level": "low",
+      "primary_action": "SCALE",
+      "diagnosis_summary": "扩量层优先级最高。ROAS 和 CPA 都达标，且频次未失控，可进入扩量观察名单。 关键指标：ctr=0.02, link_ctr=0.017059, lpv_rate=0.862069。",
+      "matched_rule_examples": [
+        "healthy_roas_scale_candidate",
+        "broad_audience_candidate_expand_less_restriction"
+      ]
+    }
+  ]
+}

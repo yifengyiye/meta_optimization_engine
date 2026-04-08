@@ -1,0 +1,78 @@
+Metadata-Version: 2.4
+Name: meta-optimization-engine
+Version: 0.1.0
+Summary: Rule-based Meta ads optimization engine
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: uvicorn>=0.30.0
+Requires-Dist: pydantic>=2.7.0
+Requires-Dist: pydantic-settings>=2.3.0
+Requires-Dist: PyYAML>=6.0.1
+Requires-Dist: pandas>=2.2.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.2.0; extra == "dev"
+Requires-Dist: httpx>=0.27.0; extra == "dev"
+
+# Meta Optimization Engine
+
+A rule-based Meta ads diagnosis and recommendation engine built with Python and FastAPI.
+
+## Features
+
+- Validate ad records with Pydantic
+- Compute derived metrics
+- Load rules from YAML
+- Evaluate rules against records
+- Return structured recommendations via API
+
+## Quick Start
+
+```bash
+cd D:\agent\meta_agent\meta_optimization_engine
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e .[dev]
+uvicorn app.main:app --reload
+```
+
+Open:
+
+- `http://127.0.0.1:8000/docs`
+
+## Endpoints
+
+- `GET /health`
+- `GET /rules`
+- `POST /analyze`
+
+## Validation
+
+Generate or reuse the 320 rule-aligned test cases:
+
+```bash
+python scripts/generate_320_test_cases.py
+```
+
+Run a batch validation summary:
+
+```bash
+python scripts/batch_validation.py
+```
+
+Run pytest, including the 320 parameterized rule cases:
+
+```bash
+pytest
+```
+
+## Project Layout
+
+```text
+meta_optimization_engine/
+  app/
+  tests/
+  scripts/
+  pyproject.toml
+  README.md
+```

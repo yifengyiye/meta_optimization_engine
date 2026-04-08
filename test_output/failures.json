@@ -1,0 +1,226 @@
+[
+  {
+    "case_id": "case_002",
+    "rule_no": 2,
+    "metric_text": "`CTR 0.5% - 0.8%`",
+    "expected": "PAUSE",
+    "actual": "REPLACE_CREATIVE"
+  },
+  {
+    "case_id": "case_003",
+    "rule_no": 3,
+    "metric_text": "`CTR 0.8% - 1.0%`",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_011",
+    "rule_no": 11,
+    "metric_text": "`CTR 高 + Link CTR 低`",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "FIX_LANDING_PAGE"
+  },
+  {
+    "case_id": "case_017",
+    "rule_no": 17,
+    "metric_text": "`CPM 比近 7 天均值高 40% 以上`",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "EXPAND_AUDIENCE"
+  },
+  {
+    "case_id": "case_020",
+    "rule_no": 20,
+    "metric_text": "拉新 `Frequency > 3`",
+    "expected": "EXPAND_AUDIENCE",
+    "actual": "REPLACE_CREATIVE"
+  },
+  {
+    "case_id": "case_021",
+    "rule_no": 21,
+    "metric_text": "拉新 `Frequency > 4` 且 `CTR` 下滑",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "PAUSE"
+  },
+  {
+    "case_id": "case_022",
+    "rule_no": 22,
+    "metric_text": "再营销 `Frequency > 6`",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "CONTROL_BUDGET"
+  },
+  {
+    "case_id": "case_031",
+    "rule_no": 31,
+    "metric_text": "`AddToCart / LPV 5% - 8%`",
+    "expected": "OBSERVE",
+    "actual": "FIX_CHECKOUT"
+  },
+  {
+    "case_id": "case_068",
+    "rule_no": 68,
+    "metric_text": "广告赚钱但花不出去",
+    "expected": "EXPAND_AUDIENCE",
+    "actual": "FIX_CHECKOUT"
+  },
+  {
+    "case_id": "case_072",
+    "rule_no": 72,
+    "metric_text": "单一素材贡献 70% 以上转化",
+    "expected": "SCALE_OR_BUDGET",
+    "actual": "IMPROVE_OFFER_CLARITY"
+  },
+  {
+    "case_id": "case_076",
+    "rule_no": 76,
+    "metric_text": "页面刚改版且关键路径刚修复",
+    "expected": "OBSERVE",
+    "actual": "FIX_CHECKOUT"
+  },
+  {
+    "case_id": "case_077",
+    "rule_no": 77,
+    "metric_text": "大促预热期加购和结账已出现，但购买没完全释放",
+    "expected": "OBSERVE",
+    "actual": "FIX_CHECKOUT"
+  },
+  {
+    "case_id": "case_079",
+    "rule_no": 79,
+    "metric_text": "咨询广告消息多但成交弱",
+    "expected": "OPTIMIZE",
+    "actual": "FIX_SALES_PROCESS"
+  },
+  {
+    "case_id": "case_082",
+    "rule_no": 82,
+    "metric_text": "`CTR < 0.5%` 且 `Link CTR < 0.5%`，并且消耗已达单次目标 CPA 的 `1 - 1.5 倍`",
+    "expected": "PAUSE",
+    "actual": "REPLACE_CREATIVE"
+  },
+  {
+    "case_id": "case_090",
+    "rule_no": 90,
+    "metric_text": "`CTR 高 + LPV 低 + Purchase 低`",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "FIX_LANDING_PAGE"
+  },
+  {
+    "case_id": "case_105",
+    "rule_no": 105,
+    "metric_text": "`CTR` 连续 3 天下滑但 `Frequency` 未升高",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_108",
+    "rule_no": 108,
+    "metric_text": "`CPC` 高于账户均值 `30%` 以上且 `CTR` 低",
+    "expected": "PAUSE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_111",
+    "rule_no": 111,
+    "metric_text": "`CPM` 低但 `CTR` 也低",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_113",
+    "rule_no": 113,
+    "metric_text": "`Reach` 增长但 `Purchase` 不增长",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_114",
+    "rule_no": 114,
+    "metric_text": "`Frequency` 提升但 `Reach` 不提升",
+    "expected": "EXPAND_AUDIENCE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_118",
+    "rule_no": 118,
+    "metric_text": "`CPM` 升高同时 `Negative Feedback` 增加",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_121",
+    "rule_no": 121,
+    "metric_text": "`LPV / Click < 50%`",
+    "expected": "PAUSE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_159",
+    "rule_no": 159,
+    "metric_text": "`ROAS` 高于目标但 `Delivery` 很弱",
+    "expected": "EXPAND_AUDIENCE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_161",
+    "rule_no": 161,
+    "metric_text": "视频 `3 秒留存 < 20%`",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_166",
+    "rule_no": 166,
+    "metric_text": "首图点击明显低于视频点击",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_171",
+    "rule_no": 171,
+    "metric_text": "评论区有人反馈“点不进去”",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_175",
+    "rule_no": 175,
+    "metric_text": "收藏低、评论低、CTR 低",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_196",
+    "rule_no": 196,
+    "metric_text": "`Manual Bid` 花得出去但 CPA 高",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_286",
+    "rule_no": 286,
+    "metric_text": "`CPA` 稳定 3 天且素材储备足够",
+    "expected": "EXPAND_AUDIENCE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_294",
+    "rule_no": 294,
+    "metric_text": "新市场测试 `CTR` 弱、评论冷",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_310",
+    "rule_no": 310,
+    "metric_text": "表现好的广告突然被系统拒审或受限",
+    "expected": "REPLACE_CREATIVE",
+    "actual": "OBSERVE"
+  },
+  {
+    "case_id": "case_317",
+    "rule_no": 317,
+    "metric_text": "广告不是最优但承担探索任务",
+    "expected": "PAUSE",
+    "actual": "OBSERVE"
+  }
+]
