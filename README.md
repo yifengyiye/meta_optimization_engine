@@ -64,6 +64,3 @@ meta_optimization_engine/
 
 请参考 [CONTRIBUTING.md](./CONTRIBUTING.md)（新增）了解如何报 issue、fork、分支、提交、测试与 PR。
 
-## 许可证
-
-本项目暂未指定许可证（可根据开源需求补充），开源发布前请补充 `LICENSE` 文件。
