@@ -13,6 +13,6 @@ def test_rule_engine_matches_ctr_rule():
     rules = loader.load_rules()
     rule = next(r for r in rules if r.id == "ctr_too_low_pause")
     engine = RuleEngine()
-    context = {"ctr": 0.004, "sample_size_ok": True}
+    context = {"ctr": 0.004, "sample_size_ok": True, "is_retargeting": False}
     assert engine.matches(rule, context) is True
 

@@ -5,8 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "meta-optimization-engine"
 version = "0.1.0"
-description = "Rule-based Meta ads optimization engine"
+description = "Rule-based Meta ads optimization engine for advertising diagnostics and recommendations"
 readme = "README.md"
+authors = [
+  { name = "Meta Optimization Engine Contributors", email = "contributors@meta-optimization-engine.dev" },
+]
+license = { file = "LICENSE" }
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115.0",
@@ -16,12 +20,30 @@ dependencies = [
   "PyYAML>=6.0.1",
   "pandas>=2.2.0",
 ]
+classifiers = [
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Marketing",
+  "Topic :: Internet",
+  "Topic :: Advertising",
+  "Topic :: Software Development",
+]
 
 [project.optional-dependencies]
 dev = [
   "pytest>=8.2.0",
   "httpx>=0.27.0",
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/meta-optimization-engine/meta-optimization-engine"
+"Repository" = "https://github.com/meta-optimization-engine/meta-optimization-engine"
+"Documentation" = "https://github.com/meta-optimization-engine/meta-optimization-engine/wiki"
+"Bug Tracker" = "https://github.com/meta-optimization-engine/meta-optimization-engine/issues"
 
 [tool.setuptools]
 packages = ["app"]
