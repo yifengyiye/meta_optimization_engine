@@ -1,8 +1,5 @@
-# Meta Optimization Engine
+# Meta Ads Optimization Engine
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python Version](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-green.svg)](https://fastapi.tiangolo.com/)
 
 Rule-driven Meta 广告诊断与优化建议服务，基于 FastAPI 提供 REST 接口，结合 YAML 规则、Pydantic 校验与 320 条验证用例打造“规则、数据、测试”三位一体的买量诊断流程。
 
@@ -41,8 +38,6 @@ pip install -e .[dev]
 # 启动服务
 uvicorn app.main:app --reload
 ```
-
-访问 `http://127.0.0.1:8000/docs` 查看交互式 API 文档。
 
 ## 📖 使用指南
 
@@ -143,11 +138,3 @@ meta_optimization_engine/
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](./LICENSE) 文件。
-
-<<<<<<< HEAD
-## 📞 联系方式
-
-- 项目主页：https://github.com/meta-optimization-engine/meta-optimization-engine
-- 问题反馈：https://github.com/meta-optimization-engine/meta-optimization-engine/issues
-=======
->>>>>>> c21eb0a30c001a4cfa17bff2d48402ce39e27448
