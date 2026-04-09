@@ -23,8 +23,8 @@ Rule-driven Meta 广告诊断与优化建议服务，基于 FastAPI 提供 REST 
 
 ```bash
 # 克隆项目
-git clone https://github.com/meta-optimization-engine/meta-optimization-engine.git
-cd meta-optimization-engine
+git clone git@github.com:yifengyiye/meta_ads_optimization_engine.git
+cd meta_ads_optimization_engine 
 
 # 创建虚拟环境
 python -m venv .venv
